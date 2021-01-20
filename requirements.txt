@@ -4,3 +4,8 @@ pyyaml
 requests
 pymongo
 gitpython
+Pillow
+numpy
+google-api-python-client
+oauth2client
+progressbar2

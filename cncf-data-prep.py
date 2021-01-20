@@ -12,6 +12,8 @@ cncf_items = db.items
 def cleanup_workspace():
     path = os.path.join(os.getcwd(), "pipeline_ws")
     repo_path = os.path.join(path, "repos")
+    if not os.path.exists(repo_path):
+        os.mkdir(repo_path)
     landscape_path = os.path.join(repo_path, "landscape")
     target_dir = os.path.join(repo_path, os.path.join(path, "logos"))
     if os.path.exists(landscape_path):
@@ -64,6 +66,18 @@ def update_thumbnails():
         if not os.path.exists(os.path.join(target_dir, file_name)):
             shutil.move(os.path.join(image_dir_3, file_name), target_dir)
 
+def process_thumbnails():
+    path = os.path.join(os.getcwd(), "pipeline_ws")
+
+    logo_dir = os.path.join(path, "logos")
+    target_dir = os.path.join(path, "processed_logos")
+    if not os.path.exists(target_dir):
+        os.mkdir(target_dir)
+
+    file_names = os.listdir(logo_dir)
+    for file_name in file_names:
+        os.system("inkscape -z -f " + os.path.join(logo_dir, file_name) + " -w 250 -j -e " + os.path.join(target_dir, file_name.split(".")[0] + ".png"))
+
 def delete_source():
     path = os.path.join(os.getcwd(), "pipeline_ws")
     repo_path = os.path.join(path, "repos")
@@ -72,6 +86,8 @@ def delete_source():
         shutil.rmtree(landscape_path)
 
     
-cleanup_workspace()  
-update_thumbnails()
-delete_source()
+# cleanup_workspace()  
+# update_thumbnails()
+process_thumbnails()
+# update_db()
+# delete_source()
